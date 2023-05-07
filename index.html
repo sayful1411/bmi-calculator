@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>BMI Calculator</title>
+        <!-- Link to Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"/>
+        <!-- Link to Tailwind CSS stylesheet -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.16/tailwind.min.css"/>
+        <style>
+            body {
+                font-family: 'Poppins', sans-serif;
+            }
+        </style>
+    </head>    
+    <body class="bg-gray-100">
+        <div class="max-w-md mx-auto py-4">
+            <h1 class="text-2xl font-bold mb-4">BMI Calculator</h1>
+            <form class="bg-white p-4 rounded shadow-md bg-cover bg-center bg-no-repeat" style="background-image: url('https://images.unsplash.com/photo-1535868463750-c78d9543614f')">
+                <div class="mb-4">
+                    <label class="block text-white font-bold mb-2" for="weightInput">Weight (kg)</label>
+                    <input class="bg-transparent shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline" id="weightInput" type="number" placeholder="Enter your weight" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-white font-bold mb-2" for="heightInput">Height (cm)</label>
+                    <input class="bg-transparent shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline" id="heightInput" type="number" placeholder="Enter your height" required>
+                </div>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" id="calculateBtn" type="button">Calculate BMI</button>
+            </form>
+            <div id="resultContainer" class="mt-4 shadow py-5 px-3 border rounded"></div>
+        </div>
+
+        <script>
+            // JavaScript code for calculating BMI
+            // get references to the input fields and button
+            const weightInput = document.getElementById('weightInput');
+            const heightInput = document.getElementById('heightInput');
+            const calculateBtn = document.getElementById('calculateBtn');
+            const resultContainer = document.getElementById('resultContainer');
+
+            // add click event listener to the button
+            calculateBtn.addEventListener('click', () => {
+                // get the values from the input fields and convert them to numbers
+                const weight = Number(weightInput.value);
+                const height = Number(heightInput.value) / 100; // convert cm to m
+
+                // remove previous BMI error
+                const previousError = document.getElementById('errorMessage');
+                if(previousError){
+                    previousError.remove();
+                }
+
+                // check if both input fields have values
+                if (!weight || !height) {
+                    const errorMessage = document.createElement('p');
+                    errorMessage.innerHTML = `Please fill in both weight and height fields.`;
+                    errorMessage.setAttribute('id', 'errorMessage');
+                    resultContainer.appendChild(errorMessage);
+                    return;
+                }
+
+                // calculate the BMI
+                const bmi = weight / (height * height);
+
+                // determine the weight category based on the BMI
+                let weightCategory;
+                if (bmi < 18.5) {
+                    weightCategory = 'Underweight';
+                } else if (bmi < 25) {
+                    weightCategory = 'Normal weight';
+                } else if (bmi < 30) {
+                    weightCategory = 'Overweight';
+                } else {
+                    weightCategory = 'Obesity';
+                }
+
+                // remove previous BMI result and form input elements
+                const previousResult = document.getElementById('bmiResult');
+                if (previousResult) {
+                    previousResult.remove();
+                }
+                weightInput.value = '';
+                heightInput.value = '';
+
+                // display the result on the webpage
+                const bmiResult = document.createElement('p');
+                bmiResult.innerHTML = `Your BMI is <strong>${bmi.toFixed(2)}</strong>, BMI Category <strong>${weightCategory}</strong>.`;
+                bmiResult.setAttribute('id', 'bmiResult');
+                resultContainer.appendChild(bmiResult);
+                console.log(bmiResult);
+            });
+        </script>
+    </body>
+</html>
