@@ -3,6 +3,9 @@
 
 This is the World Health Organization's (WHO) recommended body weight based on BMI values for adults. It is used for both men and women, age 20 or older.
 
+### Live link
+> https://clbmi.netlify.app
+
 
 | Classification | BMI range - kg/m2 |
 |--|--|
